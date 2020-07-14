@@ -26,10 +26,10 @@ describe('convertNumerals', () => {
   it('handles numbers between 100 and 999', () => {
     expect(convertNumerals(100)).toBe('one hundred');
     expect(convertNumerals(105)).toBe('one hundred five');
-    expect(convertNumerals(255)).toBe('two hundred fity-five');
+    expect(convertNumerals(255)).toBe('two hundred fifty-five');
     expect(convertNumerals(400)).toBe('four hundred');
     expect(convertNumerals(820)).toBe('eight hundred twenty');
-    expect(convertNumerals(999)).toBe('nine hundred ninty-nine');
+    expect(convertNumerals(999)).toBe('nine hundred ninety-nine');
   });
 
   it('inserts type at the end', () => {
