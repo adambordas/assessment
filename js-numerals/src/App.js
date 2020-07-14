@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 
-export function convertNumerals(number) {
+export function convertNumerals(number, type) {
   return "zero";
 };
 
