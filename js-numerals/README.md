@@ -1,4 +1,19 @@
 # JavaScript/Front-end Developer - Exercise 1
+# Solution
+## Description
+My aim was to create a solution as simple as possible that works for large numbers as well.
+
+## Installation and running project
+Install:
+`npm i`
+
+Run project (localhost:3000):
+`npm start`
+
+Run tests:
+`npm test`
+
+# Problem
 
 ## Instructions
 
