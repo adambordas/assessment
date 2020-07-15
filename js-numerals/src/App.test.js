@@ -1,5 +1,11 @@
 import { convertNumerals } from './App.js';
 
+const callWithWrongParameters = (number, scale) => {
+  return () => {
+    convertNumerals(number, scale);
+  };
+};
+
 describe('convertNumerals', () => {
   it('handles numbers less then 20', () => {
     expect(convertNumerals(0)).toBe('zero');
@@ -41,5 +47,14 @@ describe('convertNumerals', () => {
     expect(convertNumerals(123456789)).toBe('one hundred twenty-three million four hundred fifty-six thousand seven hundred eighty-nine');
     expect(convertNumerals(25145856332600)).toBe('twenty-five trillion one hundred forty-five billion eight hundred fifty-six million three hundred thirty-two thousand six hundred');
     expect(convertNumerals(2000005)).toBe('two million five');
+  });
+
+  it('throws error for out-of-limit number', () => {
+    expect(callWithWrongParameters(-15)).toThrow(Error);
+    expect(callWithWrongParameters(Number.MAX_SAFE_INTEGER + 1)).toThrow(Error);
+  });
+
+  it('throws error for wrong scale attribute', () => {
+    expect(callWithWrongParameters(18, 'wrong parameter')).toThrow(Error);
   });
 });

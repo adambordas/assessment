@@ -23,7 +23,11 @@ const normalize = string => string.replace(/ {2,}/g, ' ').trim();
  */
 export function convertNumerals(number, scale) {
   if (number < 0 || number > Number.MAX_SAFE_INTEGER || !Number.isInteger(number)) {
-    throw new Error('Wrong attributes');
+    throw new Error('Target number should be an integer between 0 and MAX_SAFE_INTEGER');
+  }
+
+  if (scale && type.indexOf(scale) < 0) {
+    throw new Error('Wrong scale attribute');
   }
 
   let numeral = '';
