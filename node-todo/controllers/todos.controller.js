@@ -1,5 +1,12 @@
 const todoService = require('../services/todos.service.js');
 
+/**
+ * CONTROLLER
+ * Creates new task
+ *    Accepted body parameters:
+ *      - text
+ *      - priority (optional)
+ */
 exports.create = (req, res) => {
   const { text, priority } = req.body;
   if (!text) {
@@ -15,6 +22,10 @@ exports.create = (req, res) => {
   res.status(201).json(todo);
 };
 
+/**
+ * CONTROLLER
+ * Lists all todos 
+ */
 exports.list = (req, res) => {
   const todos = todoService.list();
 
@@ -25,6 +36,10 @@ exports.list = (req, res) => {
   res.json(todos);
 };
 
+/**
+ * CONTROLLER
+ * Returns task by id
+ */
 exports.get = (req, res) => {
   const todo = todoService.get(req.params.id);
 
@@ -35,6 +50,14 @@ exports.get = (req, res) => {
   res.json(todo);
 };
 
+/**
+ * CONTROLLER
+ * Updates task by id
+ *    Accepted body parameters:
+ *      - text
+ *      - priority
+ *      - done
+ */
 exports.update = (req, res) => {
   const id = req.params.id;
   const { text, priority, done } = req.body;
@@ -63,6 +86,10 @@ exports.update = (req, res) => {
   }
 };
 
+/**
+ * CONTROLLER
+ * Deletes task by id
+ */
 exports.delete = (req, res) => {
   const id = req.params.id;
 
