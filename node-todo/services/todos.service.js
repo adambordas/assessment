@@ -1,5 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
-const todos = require('../data/todos.json');
+const fs = require('fs');
+
+const data = fs.readFileSync(`${__dirname}/../data/todos.json`);
+const todos = JSON.parse(data);
+
+const saveData = updatedTodos => {
+  fs.writeFileSync(`${__dirname}/../data/todos.json`, JSON.stringify(updatedTodos));
+};
 
 const create = (text, priority = 3) => {
   todos.push({
@@ -8,6 +15,8 @@ const create = (text, priority = 3) => {
     priority: priority,
     done: false
   });
+
+  saveData(todos);
 
   return todos[todos.length - 1];
 };
@@ -25,6 +34,8 @@ const update = (id, text, priority, done) => {
 
   todos.splice(index, 1, { id, text, priority, done });
 
+  saveData(todos);
+  
   return todos[index];
 };
 
@@ -36,6 +47,8 @@ const remove = id => {
   }
 
   todos.splice(index, 1);
+
+  saveData(todos);
 };
 
 module.exports = {
