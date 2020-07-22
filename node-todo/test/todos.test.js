@@ -1,8 +1,9 @@
 const proxyquire = require('proxyquire');
 const assert = require('assert');
 
-const fsStub = function() {};
-fsStub.prototype.writeFile = () => true;
+const fsStub = {
+  writeFile: (path, data, resolve) => resolve()
+};
 
 const todoService = proxyquire('../services/todos.service.js', {
   'fs': fsStub
