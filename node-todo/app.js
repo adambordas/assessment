@@ -2,9 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 
-const app = express();
 const todoController = require('./controllers/todos.controller.js');
 
+const app = express();
 app.use(helmet()); // setting up http headers to increase security
 app.use(bodyParser.json());
 

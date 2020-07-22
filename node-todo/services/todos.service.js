@@ -22,6 +22,22 @@ const saveData = updatedTodos => {
 };
 
 /**
+ * Sets timeout for 5 minutes for deleting todo
+ * @param {string} id Id of task
+ */
+const setTodoDeletion = id => {
+  doneTodos[id] = setTimeout(() => { remove(id); }, 5 * 60 * 1000);
+};
+
+/**
+ * Clears timeout for deleting todo with the given id
+ * @param {string} id Id of task
+ */
+const cancelTodoDeletion = id => {
+  clearTimeout(doneTodos[id]);
+};
+
+/**
  * Creates new task
  * @param {string} text 
  * @param {number} priority Integer between 1 and 5
@@ -64,11 +80,10 @@ const update = async (id, text, priority, done) => {
     throw new Error('Task not found.');
   }
 
-  // set timeout for 5 minutes if task is set to done
   if (done && !todos[index].done && !doneTodos[index]) {
-    doneTodos[index] = setTimeout(() => { remove(id); }, 5 * 60 * 1000);
+    setTodoDeletion(id);
   } else if (!done && todos[index].done) {
-    clearTimeout(doneTodos[index]);
+    cancelTodoDeletion(id);
   }
 
   todos.splice(index, 1, { id, text, priority, done });

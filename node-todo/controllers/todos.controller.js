@@ -7,7 +7,7 @@ const todoService = require('../services/todos.service.js');
  *      - text
  *      - priority (optional)
  */
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const { text, priority } = req.body;
   if (!text) {
     return res.status(400).json({ error: 'Text parameter is required.' });
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     return res.status(400).json({ error: 'Priority has to be an integer between 1 and 5.' });
   }
 
-  const todo = todoService.create(text, priority);
+  const todo = await todoService.create(text, priority);
 
   res.status(201).json(todo);
 };
@@ -58,7 +58,7 @@ exports.get = (req, res) => {
  *      - priority
  *      - done
  */
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.params.id;
   const { text, priority, done } = req.body;
   if (!text) {
@@ -66,7 +66,7 @@ exports.update = (req, res) => {
   }
 
   if (typeof done !== 'boolean') {
-    return res.status(400).json({ error: 'Done parameter is required' });
+    return res.status(400).json({ error: 'Done parameter is required.' });
   }
 
   if (priority && Number.isInteger(priority) && [1, 2, 3, 4, 5].indexOf(priority) < 0) {
@@ -74,7 +74,7 @@ exports.update = (req, res) => {
   }
 
   try {
-    const todo = todoService.update(id, text, priority, done);
+    const todo = await todoService.update(id, text, priority, done);
 
     res.json(todo);
   } catch (error) {
@@ -90,11 +90,11 @@ exports.update = (req, res) => {
  * CONTROLLER
  * Deletes task by id
  */
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
   try {
-    todoService.remove(id);
+    await todoService.remove(id);
 
     res.json({});
   } catch (error) {
