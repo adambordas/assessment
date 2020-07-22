@@ -1,18 +1,24 @@
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
-const data = fs.readFileSync(`${__dirname}/../data/todos.json`);
-let todos = JSON.parse(data);
+let todos = [];
 
 // object for storing timeouts for deletion
 let doneTodos = {};
+
+if (process.env.NODE_ENV !== 'test' && fs.existsSync(`${__dirname}/../data/todos.json`)) {
+  const data = fs.readFileSync(`${__dirname}/../data/todos.json`);
+  todos = JSON.parse(data);
+}
 
 /**
  * Overwrites file with new data
  * @param {array} updatedTodos Array of todos
  */
 const saveData = updatedTodos => {
-  fs.writeFileSync(`${__dirname}/../data/todos.json`, JSON.stringify(updatedTodos));
+  return new Promise(resolve => {
+    fs.writeFile(`${__dirname}/../data/todos.json`, JSON.stringify(updatedTodos), resolve);
+  });
 };
 
 /**
@@ -20,7 +26,7 @@ const saveData = updatedTodos => {
  * @param {string} text 
  * @param {number} priority Integer between 1 and 5
  */
-const create = (text, priority = 3) => {
+const create = async (text, priority = 3) => {
   todos.push({
     id: uuidv4(),
     text: text,
@@ -28,7 +34,7 @@ const create = (text, priority = 3) => {
     done: false
   });
 
-  saveData(todos);
+  await saveData(todos);
 
   return todos[todos.length - 1];
 };
@@ -40,18 +46,18 @@ const list = () => todos;
 
 /**
  * Returns todo by id
- * @param {number} id Id of task
+ * @param {string} id Id of task
  */
 const get = id => todos.find(todo => todo.id === id);
 
 /**
  * Updates task
- * @param {number} id Id of task
+ * @param {string} id Id of task
  * @param {string} text 
  * @param {number} priority Integer between 1 and 5
  * @param {boolean} done 
  */
-const update = (id, text, priority, done) => {
+const update = async (id, text, priority, done) => {
   const index = todos.findIndex(todo => todo.id === id);
 
   if (index < 0) {
@@ -67,23 +73,23 @@ const update = (id, text, priority, done) => {
 
   todos.splice(index, 1, { id, text, priority, done });
 
-  saveData(todos);
+  await saveData(todos);
   
   return todos[index];
 };
 
 /**
  * Deletes task from todos
- * @param {number} id Id of task
+ * @param {string} id Id of task
  */
-const remove = id => {
+const remove = async id => {
   const index = todos.findIndex(todo => todo.id === id);
 
   if (index < 0) {
     throw new Error('Task not found.');
   }
 
-  todos.splice(index, 1);
+  await todos.splice(index, 1);
 
   saveData(todos);
 };
