@@ -1,5 +1,88 @@
 # NodeJS Developer - Exercise 1
+# Solution
 
+## Install and start
+Install:
+`npm i`
+
+Start server on localhost (default port is 8000):
+`npm start`
+
+Run tests:
+`npm test`
+
+## Rest api
+
+### GET /todos
+Response:
+```
+[{
+  id: "",
+  text: "",
+  priority: 3,
+  done: false
+}]
+```
+
+### POST /todos
+Headers:
+```
+Content-Type: application/json
+```
+Body:
+```
+{
+  text: "", // required
+  priority: 2 // optional, defaults to 3
+}
+```
+Response:
+```
+{
+  id: "",
+  text: "",
+  priority: 3,
+  done: false
+}
+```
+
+### GET /todos/:id
+Response:
+```
+{
+  id: "",
+  text: "",
+  priority: 3,
+  done: false
+}
+```
+
+### PUT /todos/:id
+Headers:
+```
+Content-Type: application/json
+```
+Body:
+```
+{
+  text: "", // required
+  priority: 2, // required
+  done: false // required
+}
+```
+Response:
+```
+{
+  id: "",
+  text: "",
+  priority: 3,
+  done: false
+}
+```
+
+### DELETE /todos/:id
+
+# Problem
 ## Instructions
 
 - Fork this project.
